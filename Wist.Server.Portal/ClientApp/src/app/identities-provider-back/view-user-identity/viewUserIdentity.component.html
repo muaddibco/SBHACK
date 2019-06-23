@@ -1,0 +1,53 @@
+<h1>View Identity</h1>
+
+<p *ngIf="!isLoaded || !identityAttributesSchema"><em>Loading...</em></p>
+
+<div *ngIf="isLoaded && identityAttributesSchema">
+  <h2>{{ identity.description }}</h2>
+  <h4>Root Identity</h4>
+  <table class='table table-striped'>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Content</th>
+        <th>Originating Commitment</th>
+        <th>Transfers #</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ identityAttributesSchema.rootAttribute.name }}</td>
+        <td>{{ identity.rootAttribute.content }}</td>
+        <td>{{ identity.numberOfTransfers }}</td>
+        <td>{{ identity.rootAttribute.originatingCommitment }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>Associated Attributes</h4>
+  <table class='table table-striped'>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Content</th>
+        <th>Originating Commitment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let attr of identityAttributesSchema.associatedAttributes">
+        <td>{{ attr.name}}</td>
+        <td>{{ getAssociatedAttrContent(attr.attributeType) }}</td>
+        <td>{{ getAssociatedAttrCommitment(attr.attributeType) }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p></p>
+  <p></p>
+
+  <div class="form-group">
+    <button class="btn btn-primary" (click)="onSend()" style="margin-right:10px">Send</button>
+    <button class="btn" (click)="onBack()">Back</button>
+  </div>
+
+</div>

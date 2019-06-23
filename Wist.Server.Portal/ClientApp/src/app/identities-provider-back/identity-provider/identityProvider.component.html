@@ -1,0 +1,92 @@
+<div style="display:table-row">
+  <img src="./images/icons8-parliament-50.png" style="display:table-cell; margin-right:20px"/>
+  <h1 style="display:table-cell; vertical-align: central">Identities Provider Administration Page</h1>
+</div>
+
+<p *ngIf="!isLoaded"><em>Loading...</em></p>
+
+<div *ngIf="isLoaded && !isAdding">
+  <div style="display:flow-root">
+    <div style="float:left">
+      <h2>Wellcome, {{ pageTitle }}!</h2>
+    </div>
+    <app-qrcode [stringContent]="publicKey" style="float:right"></app-qrcode>
+  </div>
+  <!--<app-textbox-copy-clipboard [labelText]="'Address:'" [stringContent]="publicKey"></app-textbox-copy-clipboard>-->
+  <p></p>
+  <p></p>
+
+  <h4>Identities of managed users</h4>
+
+  <table class='table table-striped' *ngIf="identities.length > 0">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>{{identityAttributesSchema.rootAttribute.name}}</th>
+        <th>Transfers #</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let identity of identities">
+        <td>{{ identity.description }}</td>
+        <td>{{ identity.rootAttribute.content }}</td>
+        <td>{{ identity.numberOfTransfers }}</td>
+        <!--<td><button class="btn" (click)="onSendRootAttribute(identity.id)">Send</button></td>-->
+        <td><a class="nav-link text-dark" [routerLink]='["/transfer-identity", identity.id]'>Send</a></td>
+        <td><a class="nav-link text-dark" [routerLink]='["/view-identity", identity.id]'>View</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="identities.length == 0"><em>No identities created yet...</em></p>
+
+  <button class="btn btn-primary" (click)="addIdentity()">Add Identity</button>
+  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+</div>
+
+<form [formGroup]="addIdentityForm" (ngSubmit)="onSubmitAdding()" *ngIf="isAdding">
+  <div class="form-group">
+    <label for="identityDescription">Identity Description</label>
+    <input type="text" formControlName="identityDescription" class="form-control" [ngClass]="{ 'is-invalid': submitted && formData.identityDescription.errors }" />
+    <div *ngIf="submitted && formData.identityDescription.errors" class="invalid-feedback">
+      <div *ngIf="formData.identityDescription.errors.required">Identity description is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="rootAttribute">{{identityAttributesSchema.rootAttribute.name}}</label>
+    <input type="text" formControlName="rootAttribute" class="form-control" [ngClass]="{ 'is-invalid': submitted && formData.rootAttribute.errors }" />
+    <div *ngIf="submitted && formData.rootAttribute.errors" class="invalid-feedback">
+      <div *ngIf="formData.rootAttribute.errors.required">{{identityAttributesSchema.rootAttribute.name}} is required</div>
+    </div>
+  </div>
+  <div *ngFor="let attr of this.identityAttributesSchema.associatedAttributes" class="form-group">
+    <label for="associatedAttribute{{attr.attributeType}}">{{attr.name}}</label>
+    <input type="text" formControlName="associatedAttribute{{attr.attributeType}}" class="form-control" [ngClass]="{ 'is-invalid': submitted && associatedAttrs(attr.attributeType).errors }" />
+    <div *ngIf="submitted && associatedAttrs(attr.attributeType).errors" class="invalid-feedback">
+      <div *ngIf="associatedAttrs(attr.attributeType).errors.required">{{attr.name}} is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="passportPhoto">Photo</label>
+    <input type="file" class="form-control-file" (change)="onFileChange($event)"/>
+  </div>
+  <div class="form-group">
+    <img *ngIf="imageContent" src="{{imageContent}}" style="width:100px; height:100px; border-width: 1px; border-style: solid; border-color: gray; background-color:white" />
+  </div>
+  <!--<div class="form-group">
+    <label for="claimSubject">Claim Subject</label>
+    <select (change)="parseClaimSubject($event.target.value)" formControlName="claimSubject" class="form-control">
+      <option>--select--</option>
+      <option *ngFor="let name of claimSubjects"
+              [value]="name">
+        {{name}}
+      </option>
+    </select>
+  </div>-->
+  <div class="form-group">
+    <button [disabled]="submitClick" class="btn btn-primary" type="submit" style="margin-right:10px">Register</button>
+    <button [disabled]="submitClick" class="btn" type="reset" (click)="onCancelAdding()">Cancel</button>
+  </div>
+</form>

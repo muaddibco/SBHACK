@@ -1,0 +1,35 @@
+<h1>Sending identity attribute</h1>
+
+<p *ngIf="!isLoaded"><em>Loading...</em></p>
+
+<div *ngIf="isLoaded">
+  <form [formGroup]="sendIdentityForm" (ngSubmit)="onSubmitSending()">
+    <div>
+      <label>Identity Description</label>
+      <input type="text" value="{{identityDescriptionTxt}}" class="form-control" />
+    </div>
+    <div>
+      <label>ID Card Number</label>
+      <input type="text" value="{{idCardNumberTxt}}" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="psk" *ngIf="isForUser">Target</label>
+      <input formControlName="psk" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && formData.psk.errors }" />
+      <div *ngIf="submitted && formData.psk.errors" class="invalid-feedback">
+        <div *ngIf="formData.psk.errors.required">Value is mandatory</div>
+      </div>
+    </div>
+    <!--<div class="form-group" *ngIf="isForUser">
+      <label for="pvk">Public View Key</label>
+      <input name="pvk" type="text" value="{{publicViewKey}}" class="form-control" #inputPvk />
+      <input formControlName="pvk" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && formData.pvk.errors }" />
+      <div *ngIf="isForUser && submitted && formData.identityDescription.errors" class="invalid-feedback">
+        <div *ngIf="isForUser && formData.pvk.errors.required">Value is mandatory</div>
+      </div>
+    </div>-->
+    <div class="form-group">
+      <button [disabled]="submitClick" class="btn btn-primary" type="submit" style="margin-right:10px">Send</button>
+      <button [disabled]="submitClick" class="btn" type="reset" (click)="onCancelSend()">Cancel</button>
+    </div>
+  </form>
+</div>

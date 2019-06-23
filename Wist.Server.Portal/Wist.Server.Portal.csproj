@@ -1,0 +1,308 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <UserSecretsId>276442ed-6dcc-40ef-8641-6dcb64160d50</UserSecretsId>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+
+    <!-- Set this to true if you enable server-side prerendering -->
+    <BuildServerSideRenderer>false</BuildServerSideRenderer>
+  </PropertyGroup>
+
+  <!--<ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <PackageReference Include="CommonServiceLocator" Version="2.0.4" />
+    <PackageReference Include="Flurl.Http" Version="2.4.2" />
+    <PackageReference Include="Google.Protobuf" Version="3.7.0" />
+    <PackageReference Include="Grpc" Version="1.21.0" />
+    <PackageReference Include="Grpc.Core" Version="1.21.0" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="1.1.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Metrics" Version="2.9.1" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="2.2.4" />
+    <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="2.2.4" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green" Version="1.1.13" />
+    <PackageReference Include="SQLitePCLRaw.core" Version="1.1.13" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.linux" Version="1.1.13" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.osx" Version="1.1.13" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.v110_xp" Version="1.1.13" />
+    <PackageReference Include="SQLitePCLRaw.provider.e_sqlite3.net45" Version="1.1.13" />
+    <PackageReference Include="Unity" Version="5.8.13" />
+    <PackageReference Include="Unity.Microsoft.DependencyInjection" Version="2.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Wist.Client\Wist.Client.Common\Wist.Client.Common.csproj" />
+    <ProjectReference Include="..\..\Wist.Client\Wist.Client.DataModel\Wist.Client.DataModel.csproj" />
+    <ProjectReference Include="..\..\Wist.Common\Blockchain\Wist.Blockchain.Core\Wist.Blockchain.Core.csproj" />
+    <ProjectReference Include="..\..\Wist.Common\Crypto\Chaos.NaCl\Chaos.NaCl.csproj" />
+    <ProjectReference Include="..\..\Wist.Common\Crypto\HashLib\CoreHashLib\CoreHashLib.csproj" />
+    <ProjectReference Include="..\..\Wist.Common\Crypto\Wist.Crypto\Wist.Crypto.csproj" />
+    <ProjectReference Include="..\..\Wist.Common\Network\Wist.Network\Wist.Network.csproj" />
+    <ProjectReference Include="..\..\Wist.Common\Wist.Core\Wist.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Logs\**" />
+    <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Remove="Logs\**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\authentication\authentication.module.ts" />
+    <None Remove="ClientApp\src\app\notification-popup\notification-popup.component.ts" />
+    <None Remove="ClientApp\src\app\notification-popup\notification-popup.module.ts" />
+    <None Remove="ClientApp\src\app\qrcode-popup\qrcode-popup.component.ts" />
+    <None Remove="ClientApp\src\app\qrcode-popup\qrcode-popup.module.ts" />
+    <None Remove="ClientApp\src\app\service-provider-back\allowed-signer-dialog\allowed-signer-dialog.component.ts" />
+    <None Remove="ClientApp\src\app\service-provider-back\document-dialog\document-dialog.component.ts" />
+    <None Remove="ClientApp\src\app\service-provider-back\employee-group-dialog\employee-group-dialog.component.ts" />
+    <None Remove="ClientApp\src\app\service-provider-back\add-validation-dialod\add-validation-dialog.component.ts" />
+    <None Remove="ClientApp\src\app\service-provider-back\employee-record-dialog\employee-record-dialog.component.ts" />
+    <None Remove="ClientApp\src\app\service-provider-back\service-provider-back.module.ts" />
+    <None Remove="ClientApp\src\app\service-provider-front\service-provider-front.module.ts" />
+    <None Remove="ClientApp\src\app\service-provider-front\service-provider-front.service.ts" />
+    <None Remove="ClientApp\src\app\user\duplicate-user\duplicate-user.component.ts" />
+    <None Remove="ClientApp\src\app\identities-provider-back\identityProviderBack.module.ts" />
+    <None Remove="ClientApp\src\app\identities-provider-back\store\identity-provider-back.actions.ts" />
+    <None Remove="ClientApp\src\app\identities-provider-back\store\identity-provider-back.effects.ts" />
+    <None Remove="ClientApp\src\app\identities-provider-back\store\identity-provider-back.reducers.ts" />
+    <None Remove="ClientApp\src\app\identities-provider-front\identities-provider-front.module.ts" />
+    <None Remove="ClientApp\src\app\identities-provider-front\identities-provider-front.service.ts" />
+    <None Remove="ClientApp\src\app\identities-provider-front\identity-provider-front.component.ts" />
+    <None Remove="ClientApp\src\app\interceptor\errorInterceptor.ts" />
+    <None Remove="ClientApp\src\app\interceptor\httpInterceptor.ts" />
+    <None Remove="ClientApp\src\app\qrcode\qrcode.component.ts" />
+    <None Remove="ClientApp\src\app\qrcode\qrcode.module.ts" />
+    <None Remove="ClientApp\src\app\register\register.component.spec.ts" />
+    <None Remove="ClientApp\src\app\register\register.component.ts" />
+    <None Remove="ClientApp\src\app\store\portal.actions.ts" />
+    <None Remove="ClientApp\src\app\store\portal.effects.ts" />
+    <None Remove="ClientApp\src\app\store\portal.reducers.ts" />
+    <None Remove="ClientApp\src\app\identities-provider-back\transfer-identity\transfer-identity.component.spec.ts" />
+    <None Remove="ClientApp\src\app\user\group-relations-proof\group-relations-proof.component.ts" />
+    <None Remove="ClientApp\src\app\user\relations-validation-popup\relations-validation-popup.component.ts" />
+    <None Remove="ClientApp\src\app\user\signature-verification-popup\signature-verification-popup.component.ts" />
+    <None Remove="ClientApp\src\app\user\user-claims\user-claims.component.spec.ts" />
+    <None Remove="ClientApp\src\app\user\user-identity-request\userIdentityRequest.component.ts" />
+    <None Remove="ClientApp\src\app\identities-provider-back\view-user-identity\viewUserIdentity.component.spec.ts" />
+    <None Remove="ClientApp\src\app\identities-provider-back\view-user-identity\viewUserIdentity.component.ts" />
+    <None Remove="ClientApp\src\app\user\user.module.ts" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="ClientApp\tsconfig.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="wwwroot\images\icons8-copy-50.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\authentication\authentication.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-back\identity-provider\identityProvider.component.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\notification-popup\notification-popup.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\notification-popup\notification-popup.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\qrcode-popup\qrcode-popup.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\qrcode-popup\qrcode-popup.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-back\allowed-signer-dialog\allowed-signer-dialog.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-back\document-dialog\document-dialog.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-back\employee-group-dialog\employee-group-dialog.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-back\add-validation-dialod\add-validation-dialog.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-back\employee-record-dialog\employee-record-dialog.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-back\service-provider-back.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-front\service-provider-front.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-front\service-provider-front.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\group-relations-proof\group-relations-proof.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\relations-validation-popup\relations-validation-popup.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\service-provider\service-provider.component.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-back\serviceProvider.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-back\identity-provider\identityProvider.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\signature-verification-popup\signature-verification-popup.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\user.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\duplicate-user\duplicate-user.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-back\identityProviderBack.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-back\store\identity-provider-back.actions.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-back\store\identity-provider-back.effects.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-back\store\identity-provider-back.reducers.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-front\identities-provider-front.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-front\identities-provider-front.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-front\identity-provider\identity-provider-front.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\interceptor\errorInterceptor.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\interceptor\httpInterceptor.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\qrcode\qrcode.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\qrcode\qrcode.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\register\register.component.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\register\register.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\authentication\authentication.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\authentication\authorizationCheck.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-back\identities.service.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-back\identities.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-back\serviceProvider.service.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-back\serviceProvider.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\user.Service.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-front\service-providers-list\serviceProviders.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-front\service-provider\sp.component.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-front\service-provider\sp.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\service-provider-front\service-provider-inside\spLoginHome.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\store\portal.actions.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\store\portal.effects.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\store\portal.reducers.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-back\transfer-identity\transfer-identity.component.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\user-claims\user-claims.component.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\user-identity-request\userIdentityRequest.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-back\view-user-identity\viewUserIdentity.component.spec.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\identities-provider-back\view-user-identity\viewUserIdentity.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\user.module.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\images\GBO-Overheid-leeg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\icons8-administrator-male-50.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\icons8-contact-v-26.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\icons8-contact-x-26.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\icons8-copy-32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\icons8-copy-50.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\icons8-error-50.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\icons8-museum-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\icons8-museum-50.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\icons8-parliament-100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\icons8-parliament-50.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\logo WIST red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\peltarion-29255_1280.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="log4net.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\karma\" />
+    <Folder Include="Dtos\User\RelationProofsSession\" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptModuleKind />
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
+  
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+      <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+</Project>

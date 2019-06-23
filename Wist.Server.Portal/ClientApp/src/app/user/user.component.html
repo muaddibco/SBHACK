@@ -1,0 +1,131 @@
+<p *ngIf="!isLoaded"><em>Loading...</em></p>
+
+
+<div *ngIf="isLoaded" style="border: 1px solid gray; padding: 20px; background: aliceblue">
+  <!--<h1>Welcome, {{ pageTitle }}, to your Identity Wallet!</h1>-->
+  <div class="form-group" *ngIf="isCompromised">
+    <div *ngIf="!isMobile">
+      <div class="alert alert-danger" style="vertical-align:middle; font-size: xx-large">
+        <img src="./images/icons8-error-50.png" style="margin-right:10px; margin-top:-8px" /> Account is compromised!!!
+        <button class="btn" (click)="sendCompromisedProofs()" style="border-width:1px;border-style:solid; border-color:darkgray; float:right; margin-top:2px"><img src="./images/icons8-spyware-50.png" width="30px" style="margin-right:10px" />Stop</button>
+      </div>
+    </div>
+    <div *ngIf="isMobile">
+      <div class="alert alert-danger" style="vertical-align:middle; font-size: x-large; text-align: center">
+        <div style="width: 100%; display: inline-block; margin-top: 10px; margin-bottom: 10px">
+          <img src="./images/icons8-error-50.png" style="margin-right:10px; margin-top:-8px" />
+          <span>Compromised!!!</span>
+        </div>
+        <div>
+          <button class="btn" (click)="sendCompromisedProofs()" style="border-width:1px; border-style:solid; border-color:darkgray; margin-top:2px; width: 100%"><img src="./images/icons8-spyware-50.png" width="30px" style="margin-right:10px" />Stop last action</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div *ngIf="!isMobile">
+      <label for="qrCodeReader">Scan QR Code for doing actions</label>
+      <input id="qrCodeReader" type="text" (paste)="onPaste($event)" class="form-control" (change)="onqrCodeReaderinputChanged($event)" />
+    </div>
+    <div *ngIf="isMobile">
+      <div *ngIf="!activateQrScanner">
+        <button class="btn btn-primary" style="width: 100%" (click)="activateQrScanner = true;">Scan QR Code for doing actions</button>
+      </div>
+      <div *ngIf="activateQrScanner" style="margin-bottom: 15px">
+        <button class="btn btn-primary" style="width: 50%" (click)="activateQrScanner = false;">Cancel QR scan</button>
+        <button class="btn btn-link" style="width: 50%" (click)="switchCamera()">Switch camera</button>
+      </div>
+    </div>
+    <zxing-scanner *ngIf="activateQrScanner" [formats]="['QR_CODE']" [device]="device" (scanSuccess)="scanSuccessHandler($event)" (camerasFound)="camerasFoundHandler($event)"></zxing-scanner>
+    <!--<div class="user-component_qrcode-button" (click)="onClickQrCodePaste()">
+      <div style="display: block; width: 100px; height: 100px">
+        <div style="display: block; height: 45%">
+          <div style="display: inline-block; width: 45%; height: 100%; border-left-style: solid; border-left-width:2px; border-top-style: solid; border-top-width:2px; border-color:gray"></div>
+          <div style="display: inline-block; width: 10%; height: 100%"></div>
+          <div style="display: inline-block; width: 45%; height: 100%; border-right-style: solid; border-right-width:2px; border-top-style: solid; border-top-width:2px; border-color:gray"></div>
+        </div>
+        <div style="display: block; height: 1px; width: 90%; margin-left: 5px; border: 1px solid gray">
+        </div>
+        <div style="display: block; height: 45%">
+          <div style="display: inline-block; width: 45%; height: 100%; border-left-style: solid; border-left-width:2px; border-bottom-style: solid; border-bottom-width:2px; border-color:gray"></div>
+          <div style="display: inline-block; width: 10%; height: 100%"></div>
+          <div style="display: inline-block; width: 45%; height: 100%; border-right-style: solid; border-right-width:2px; border-bottom-style: solid; border-bottom-width:2px; border-color:gray"></div>
+        </div>
+      </div>
+    </div>-->
+    <div *ngIf="isActionError" class="alert alert-danger">
+      {{ actionError }}
+    </div>
+  </div>
+
+  <app-user-claims></app-user-claims>
+  <p></p>
+  <div style="border-width: 3px; border-style: solid; border-color: gray; background-color:ghostwhite">
+    <!--<h3 style="margin-left:7px">Digital Passport</h3>-->
+    <table style="width:100%; margin-top: 15px">
+      <tbody>
+        <tr>
+          <td width="auto" align="center" style="padding-left: 10px; padding-right: 10px; max-width: 30%">
+            <div style="border-width: 1px; border-style: solid; border-color: gray; background-color:white" *ngIf="!imageContent">
+              <img src="./images/icons8-name-100.png" />
+            </div>
+            <img *ngIf="imageContent" src="data:image/JPEG;base64,{{imageContent}}" style="width:100px; height:100px; border-width: 1px; border-style: solid; border-color: gray; background-color:white" />
+          </td>
+          <td width="100%" style="padding-left: 10px; padding-right: 10px">
+            <form [formGroup]="associatedIdentitiesForm" (ngSubmit)="onSubmitAssociatedAttributes()" *ngIf="userAssociatedAttributesLoaded">
+              <div class="form-group" *ngFor="let attr of userAssociatedAttributes" style="margin-bottom: 0px;">
+                <label for="associatedAttribute{{attr.attributeType}}" style="font-size:small">{{attr.attributeTypeName}}</label>
+                <input type="text" formControlName="associatedAttribute{{attr.attributeType}}" class="form-control" style="padding-bottom: 0px; padding-top: 0px; height: auto;" />
+              </div>
+              <div class="form-group" style="margin-top: 10px">
+                <button [disabled]="submitClick" class="btn btn-primary" style="width: 100%" type="submit">Update</button>
+              </div>
+            </form>
+          </td>
+          <!--<td width="33%" align="center"><app-qrcode [stringContent]="qrContent"></app-qrcode></td>-->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+  <mat-expansion-panel style="margin: 10px 0px">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Related Groups
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p *ngIf="groupRelations.length == 0"><em>No groups user relates to yet...</em></p>
+    <table class="table table-striped" *ngIf="groupRelations.length > 0">
+      <thead>
+        <tr>
+          <th>Group Owner</th>
+          <th>Group Name</th>
+          <th>#</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let groupRelation of groupRelations">
+          <td>{{groupRelation.groupOwnerName}}</td>
+          <td>{{groupRelation.groupName}}</td>
+          <td>
+            <img src="./images/icons8-trash-32.png" width="24px" style="cursor: pointer;" (click)="removeGroupRelation(groupRelation)" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-expansion-panel>
+
+  <div>
+    <button class="btn btn-primary" style="width: 100%" (click)="onShowQrClick()">Show my QR code</button>
+  </div>
+
+  <p></p>
+  <div style="height: 20px">
+    <a class="nav-link text-dark" [routerLink]='["/duplicate-user"]' style="float:right">Simulate Hack - duplicate User</a>
+  </div>
+  <div style="width: 100%" *ngIf="isCompromised">
+    <button class="btn btn-light" (click)="clearCompromised()">Clear Compromised Flag</button>
+  </div>
+</div>

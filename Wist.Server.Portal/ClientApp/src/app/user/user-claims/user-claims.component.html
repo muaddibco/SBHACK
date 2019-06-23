@@ -1,0 +1,24 @@
+<h4>Root Identity Proofs</h4>
+<p *ngIf="userAttributes.length == 0"><em>User did not receive any Root Identity yet. Please request by scanning QR Code of appropriate Indentity Provider</em></p>
+<div *ngIf="userAttributes.length > 0">
+  <table class='table table-striped'>
+    <tbody>
+      <tr *ngFor="let attribute of userAttributes" [ngClass]="{'alert-light': attribute.isOverriden}">
+        <td width="auto">
+          <img src="./images/icons8-contact-v-26.png" *ngIf="!attribute.isOverriden" />
+          <img src="./images/icons8-contact-x-26.png" *ngIf="attribute.isOverriden" />
+        </td>
+        <td width="auto"><qrcode style="float:right" [qrdata]="attribute.lastCommitment" [size]="48" [level]="'M'" (click)="copyQR()"></qrcode></td>
+        <td width="100%">
+          <div>
+            <input #attributeContent class="form-control" type="text" value={{attribute.content}} ng-readonly="false" [disabled]="attribute.isOverriden" />
+          </div>  
+        </td>
+        <td width="auto">
+          <button class="btn btn-primary" style="float:right" (click)="validateContent(attribute, attributeContent.value)"  [disabled]="attribute.isOverriden">Validate</button>
+        </td>
+        <!--<td><a class="nav-link text-dark">Validate</a></td>-->
+      </tr>
+    </tbody>
+  </table>
+</div>

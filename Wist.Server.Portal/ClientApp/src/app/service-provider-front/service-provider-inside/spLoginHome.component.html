@@ -1,0 +1,9 @@
+<p *ngIf="!isLoaded"><em>Loading...</em></p>
+
+<h1 *ngIf="isLoaded">Congratulations! You was successfully logged in to {{ pageTitle }}</h1>
+
+<div class="form-group" *ngIf="isCompromised">
+  <div class="alert alert-danger" style="vertical-align:middle; font-size: xx-large">
+    <img src="./images/icons8-error-50.png" style="margin-right:10px; margin-top:-8px" /> Action is compromised!!! No further activity is permitted!!!
+  </div>
+</div>

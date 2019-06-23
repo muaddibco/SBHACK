@@ -1,0 +1,66 @@
+<h1>Accounts</h1>
+
+<p *ngIf="!isLoaded"><em>Loading...</em></p>
+
+<div *ngIf="isLoaded">
+  <h4>Identity Providers</h4>
+  <p *ngIf="accountsIP.length == 0"><em>No Identity Provider accounts created yet. Please use 'Register' for account creation</em></p>
+  <table class='table table-striped' *ngIf="accountsIP.length > 0">
+    <!--<thead>
+      <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Login Link</th>
+      </tr>
+    </thead>-->
+    <tbody>
+      <tr *ngFor="let account of accountsIP" (click)="gotoLogin(account)" style="cursor:pointer">
+        <td width="1%"><img src="./images/icons8-parliament-50.png" width="30px" /></td>
+        <td><div style="max-width: 150px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden">{{ account.accountInfo }}</div></td>
+        <td width="1%">
+          <img src="./images/icons8-trash-32.png" width="24px" style="cursor: pointer;" (click)="removeIPAccount(account); $event.stopPropagation();" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h4>Service Providers</h4>
+  <p *ngIf="accountsSP.length == 0"><em>No Service Provider accounts created yet. Please use 'Register' for account creation</em></p>
+  <table class='table table-striped' *ngIf="accountsSP.length > 0">
+    <!--<thead>
+      <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Login Link</th>
+      </tr>
+    </thead>-->
+    <tbody>
+      <tr *ngFor="let account of accountsSP" (click)="gotoLogin(account)" style="cursor:pointer">
+        <td width="1%"><img src="./images/icons8-museum-50.png" width="30px" /></td>
+        <td><div style="max-width: 150px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden">{{ account.accountInfo }}</div></td>
+        <td width="1%">
+          <img src="./images/icons8-trash-32.png" width="24px" style="cursor: pointer;" (click)="removeSPAccount(account); $event.stopPropagation();" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h4>User Accounts</h4>
+  <p *ngIf="accountsUser.length == 0"><em>No User accounts created yet. Please use 'Register' for account creation</em></p>
+  <table class='table table-striped' *ngIf="accountsUser.length > 0">
+    <!--<thead>
+      <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Login Link</th>
+      </tr>
+    </thead>-->
+    <tbody>
+      <tr *ngFor="let account of accountsUser" (click)="gotoLogin(account)" style="cursor:pointer">
+        <td width="1%"><img src="./images/icons8-administrator-male-50.png " width="30px" /></td>
+        <td><div style="max-width: 150px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden">{{ account.accountInfo }}</div></td>
+        <td width="1%">
+          <img src="./images/icons8-trash-32.png" width="24px" style="cursor: pointer;" (click)="removeUserAccount(account); $event.stopPropagation();"/>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
