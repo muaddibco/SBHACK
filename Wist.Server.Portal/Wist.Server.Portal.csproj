@@ -21,7 +21,7 @@
   <ItemGroup>
     <PackageReference Include="CommonServiceLocator" Version="2.0.4" />
     <PackageReference Include="Flurl.Http" Version="2.4.2" />
-    <PackageReference Include="Google.Protobuf" Version="3.7.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.15.0" />
     <PackageReference Include="Grpc" Version="1.21.0" />
     <PackageReference Include="Grpc.Core" Version="1.21.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
